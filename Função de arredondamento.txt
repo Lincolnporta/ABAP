@@ -1,0 +1,60 @@
+DATA: gs_decimal(6)     TYPE c,
+      gs_decimal_aux(6) TYPE c.
+
+PARAMETERS: p_dec(6) TYPE c OBLIGATORY.
+
+START-OF-SELECTION.
+  gs_decimal = p_dec.
+
+  CONDENSE gs_decimal NO-GAPS.
+
+  CALL FUNCTION 'STRING_REVERSE'
+    EXPORTING
+      string    = gs_decimal
+      lang      = sy-langu
+    IMPORTING
+      rstring   = gs_decimal_aux
+    EXCEPTIONS
+      too_small = 1
+      OTHERS    = 2.
+
+  CASE gs_decimal_aux(1).
+    WHEN '1'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) - 1 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '2'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) - 2 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '3'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) - 3  ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '4'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) - 4 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '5'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) + 5 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '6'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) + 4 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '7'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) + 3 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '8'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) + 2 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+    WHEN '9'.
+      gs_decimal = ( ( ( gs_decimal * 100 ) + 1 ) / 100 ).
+      MESSAGE 'Valor arredondado para menos' TYPE 'S'.
+
+  ENDCASE.
+
+  WRITE:/ gs_decimal.
